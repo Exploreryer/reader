@@ -3,6 +3,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 import request from "@/utils/request";
 import {API_READ_HUB_TOPICS} from "@/constants/api";
+import InfoCard from "@/components/InfoCard";
 
 export default class Index extends Component {
 
@@ -37,8 +38,10 @@ export default class Index extends Component {
 
   render () {
     return (
-      <View className='index'>
-        <Text>Hello world!</Text>
+      <View className='container'>
+        <InfoCard />
+        <InfoCard />
+        <InfoCard />
       </View>
     )
   }
