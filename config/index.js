@@ -1,3 +1,5 @@
+const path = require('path')
+
 const config = {
   projectName: 'reader',
   date: '2019-11-2',
@@ -24,13 +26,15 @@ const config = {
       ]
     }
   },
-  defineConstants: {
+  alias: {
+    '@/components': path.resolve(__dirname, '..', 'src/components/'),
+    '@/utils': path.resolve(__dirname, '..', 'src/utils/'),
+    '@/constants': path.resolve(__dirname, '..', 'src/constants/'),
   },
+  defineConstants: {},
   copy: {
-    patterns: [
-    ],
-    options: {
-    }
+    patterns: [],
+    options: {}
   },
   weapp: {
     module: {
@@ -47,9 +51,7 @@ const config = {
         },
         pxtransform: {
           enable: true,
-          config: {
-
-          }
+          config: {}
         },
         url: {
           enable: true,
@@ -70,6 +72,7 @@ const config = {
   h5: {
     publicPath: '/',
     staticDirectory: 'static',
+    esnextModules: ['taro-ui'],
     module: {
       postcss: {
         autoprefixer: {

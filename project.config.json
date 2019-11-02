@@ -2,7 +2,7 @@
   "miniprogramRoot": "./dist",
   "projectname": "reader",
   "description": "easy to read",
-  "appid": "touristappid",
+  "appid": "wxade540f7c05d76b1",
   "setting": {
     "urlCheck": true,
     "es6": false,

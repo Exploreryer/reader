@@ -1,6 +1,8 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import './index.scss'
+import request from "@/utils/request";
+import {API_READ_HUB_TOPICS} from "@/constants/api";
 
 export default class Index extends Component {
 
@@ -17,9 +19,17 @@ export default class Index extends Component {
 
   componentWillMount () { }
 
-  componentDidMount () { }
+  componentDidMount () {
+    request({url: API_READ_HUB_TOPICS}).then(res => {
+      console.log(res)
+    })
+  }
 
   componentWillUnmount () { }
+
+  componentWillPreload(params: { [p: string]: any }): any {
+
+  }
 
   componentDidShow () { }
 
