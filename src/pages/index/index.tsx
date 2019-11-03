@@ -2,7 +2,7 @@ import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import './index.scss'
 import request from '@/utils/request'
-import { API_READ_HUB_TOPICS } from '@/constants/api'
+import {API_READ_HUB_TOPIC, API_READ_HUB_TOPICS} from '@/constants/api'
 import InfoCard from '@/components/InfoCard'
 import _ from 'lodash'
 import { formatDateOrDuring, parseFirstSentence, transformObjectToParams } from '@/utils'
@@ -66,10 +66,11 @@ export default class Index extends Component<{}, IndexState> {
     })
   }
 
-  componentWillMount() {}
+  componentWillMount() {
+    this.refreshData()
+  }
 
   componentDidMount() {
-    this.refreshData()
   }
 
   componentWillUnmount() {}
