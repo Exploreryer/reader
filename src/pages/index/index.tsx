@@ -4,8 +4,14 @@ import './index.scss'
 import request from "@/utils/request";
 import {API_READ_HUB_TOPICS} from "@/constants/api";
 import InfoCard from "@/components/InfoCard";
+import _ from 'lodash';
+import {formatDateOrDuring, parseFirstSentence} from "@/utils";
 
-export default class Index extends Component {
+interface IndexState {
+  data: any[]
+}
+
+export default class Index extends Component<{}, IndexState> {
 
   /**
    * 指定config的类型声明为: Taro.Config
@@ -18,12 +24,25 @@ export default class Index extends Component {
     navigationBarTitleText: '首页'
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      data: []
+    }
+  }
+
   componentWillMount() {
   }
 
   componentDidMount() {
-    request({url: API_READ_HUB_TOPICS}).then(res => {
-      console.log(res)
+    request({
+      url: API_READ_HUB_TOPICS, onSuccess: (res) => {
+        const data = _.get(res, 'data.data', [])
+        console.log(data)
+        this.setState({
+          data
+        })
+      }
     })
   }
 
@@ -37,11 +56,16 @@ export default class Index extends Component {
   }
 
   render() {
+    const {data} = this.state
     return (
       <View className='container'>
-        <InfoCard/>
-        <InfoCard/>
-        <InfoCard/>
+        {
+          data.map((item) => {
+            const {title, summary, createdAt: createTime} = item
+            return <InfoCard title={title} desc={parseFirstSentence(summary)} time={formatDateOrDuring(createTime)}
+                             key={title}/>
+          })
+        }
       </View>
     )
   }
