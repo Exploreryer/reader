@@ -7,5 +7,10 @@ export interface RequestOption {
 
 export default <TOutput = any, TInput = RequestOption>(option: RequestOption) => {
   const { parse, ...restOption } = option
-  return Taro.request<TOutput, TInput>(restOption).then(res => (parse ? parse<TOutput>(res) : res))
+  return Taro.request<TOutput, TInput>(restOption)
+    .then(res => (parse ? parse<TOutput>(res) : res))
+    .catch(err => {
+      Taro.showToast({ title: '加载失败', icon: 'none' })
+      return err
+    })
 }

@@ -28,7 +28,19 @@ class App extends Component {
     }
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    // 检查更新
+    const updateManager = Taro.getUpdateManager()
+    updateManager.onUpdateReady(() => {
+      Taro.showModal({
+        title: '更新提示',
+        content: '新版的资讯奶酪新鲜出炉啦，快来尝尝吧~',
+        success: res => {
+          res.confirm && updateManager.applyUpdate()
+        }
+      })
+    })
+  }
 
   componentDidShow() {}
 

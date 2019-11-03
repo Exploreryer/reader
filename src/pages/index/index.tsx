@@ -50,6 +50,7 @@ export default class Index extends Component<{}, IndexState> {
 
   refreshData = () => {
     this.updateData(DEFAULT_REQUEST_PARAMS).then((data: any[]) => {
+      Taro.stopPullDownRefresh()
       this.setState({
         data
       })
@@ -67,10 +68,10 @@ export default class Index extends Component<{}, IndexState> {
   }
 
   componentWillMount() {
-    this.refreshData()
   }
 
   componentDidMount() {
+    this.refreshData()
   }
 
   componentWillUnmount() {}
