@@ -1,14 +1,11 @@
-import Taro from '@tarojs/taro';
+import Taro from '@tarojs/taro'
 
 export interface RequestOption {
-  url: string;
-  onSuccess?: (res: object) => void;
-  onError?: (err: object) => void;
+  url: string
+  parse?: <T>(res: object) => T
 }
 
-export default (option: RequestOption) => {
-  const { onSuccess, onError, ...restOption } = option;
-  return Taro.request(restOption)
-    .then(onSuccess)
-    .catch(onError);
-};
+export default <TOutput = any, TInput = RequestOption>(option: RequestOption) => {
+  const { parse, ...restOption } = option
+  return Taro.request<TOutput, TInput>(restOption).then(res => (parse ? parse<TOutput>(res) : res))
+}

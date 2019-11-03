@@ -1,14 +1,19 @@
-import Taro, { Component, Config } from '@tarojs/taro';
-import { View, Text } from '@tarojs/components';
-import './index.scss';
-import request from '@/utils/request';
-import { API_READ_HUB_TOPICS } from '@/constants/api';
-import InfoCard from '@/components/InfoCard';
-import _ from 'lodash';
-import { formatDateOrDuring, parseFirstSentence } from '@/utils';
+import Taro, { Component, Config } from '@tarojs/taro'
+import { View, Text } from '@tarojs/components'
+import './index.scss'
+import request from '@/utils/request'
+import { API_READ_HUB_TOPICS } from '@/constants/api'
+import InfoCard from '@/components/InfoCard'
+import _ from 'lodash'
+import { formatDateOrDuring, parseFirstSentence, transformObjectToParams } from '@/utils'
 
 interface IndexState {
-  data: any[];
+  data: any[]
+}
+
+const DEFAULT_REQUEST_PARAMS = {
+  pageSize: 20,
+  lastCursor: ''
 }
 
 export default class Index extends Component<{}, IndexState> {
@@ -20,29 +25,51 @@ export default class Index extends Component<{}, IndexState> {
    * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
    */
   config: Config = {
-    navigationBarTitleText: '首页'
-  };
+    navigationBarTitleText: '话题',
+    backgroundColor: '#e6e6e6'
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       data: []
-    };
+    }
+  }
+
+  getLastCursor = () => {
+    const { data } = this.state
+    return _.get(_.last(data), 'order')
+  }
+
+  updateData = params => {
+    return request<any[]>({
+      url: `${API_READ_HUB_TOPICS}${transformObjectToParams(params)}`,
+      parse: res => _.get(res, 'data.data', [])
+    })
+  }
+
+  refreshData = () => {
+    this.updateData(DEFAULT_REQUEST_PARAMS).then((data: any[]) => {
+      this.setState({
+        data
+      })
+      return data
+    })
+  }
+
+  loadMoreData = () => {
+    this.updateData(
+      _.extend({}, DEFAULT_REQUEST_PARAMS, { lastCursor: this.getLastCursor() })
+    ).then(data => {
+      this.setState(({ data: prevData }) => ({ data: prevData.concat(data) }))
+      return data
+    })
   }
 
   componentWillMount() {}
 
   componentDidMount() {
-    request({
-      url: API_READ_HUB_TOPICS,
-      onSuccess: res => {
-        const data = _.get(res, 'data.data', []);
-        console.log(data);
-        this.setState({
-          data
-        });
-      }
-    });
+    this.refreshData()
   }
 
   componentWillUnmount() {}
@@ -51,12 +78,20 @@ export default class Index extends Component<{}, IndexState> {
 
   componentDidHide() {}
 
+  onPullDownRefresh() {
+    this.refreshData()
+  }
+
+  onReachBottom(): void {
+    this.loadMoreData()
+  }
+
   render() {
-    const { data } = this.state;
+    const { data } = this.state
     return (
       <View className="container">
         {data.map(item => {
-          const { title, summary, createdAt: createTime } = item;
+          const { title, summary, createdAt: createTime } = item
           return (
             <InfoCard
               title={title}
@@ -64,9 +99,9 @@ export default class Index extends Component<{}, IndexState> {
               time={formatDateOrDuring(createTime)}
               key={title}
             />
-          );
+          )
         })}
       </View>
-    );
+    )
   }
 }

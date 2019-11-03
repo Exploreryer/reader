@@ -1,7 +1,7 @@
-import Taro, { Component, Config } from '@tarojs/taro';
-import Index from './pages/index';
+import Taro, { Component, Config } from '@tarojs/taro'
+import Index from './pages/index'
 
-import './app.scss';
+import './app.scss'
 
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
@@ -23,9 +23,10 @@ class App extends Component {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#e6e6e6',
       navigationBarTitleText: 'WeChat',
-      navigationBarTextStyle: 'black'
+      navigationBarTextStyle: 'black',
+      enablePullDownRefresh: true
     }
-  };
+  }
 
   componentDidMount() {}
 
@@ -38,8 +39,8 @@ class App extends Component {
   // 在 App 类中的 render() 函数没有实际作用
   // 请勿修改此函数
   render() {
-    return <Index />;
+    return <Index />
   }
 }
 
-Taro.render(<App />, document.getElementById('app'));
+Taro.render(<App />, document.getElementById('app'))
