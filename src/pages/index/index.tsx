@@ -1,18 +1,17 @@
-import Taro, {Component, Config} from '@tarojs/taro'
-import {View, Text} from '@tarojs/components'
-import './index.scss'
-import request from "@/utils/request";
-import {API_READ_HUB_TOPICS} from "@/constants/api";
-import InfoCard from "@/components/InfoCard";
+import Taro, { Component, Config } from '@tarojs/taro';
+import { View, Text } from '@tarojs/components';
+import './index.scss';
+import request from '@/utils/request';
+import { API_READ_HUB_TOPICS } from '@/constants/api';
+import InfoCard from '@/components/InfoCard';
 import _ from 'lodash';
-import {formatDateOrDuring, parseFirstSentence} from "@/utils";
+import { formatDateOrDuring, parseFirstSentence } from '@/utils';
 
 interface IndexState {
-  data: any[]
+  data: any[];
 }
 
 export default class Index extends Component<{}, IndexState> {
-
   /**
    * 指定config的类型声明为: Taro.Config
    *
@@ -22,51 +21,52 @@ export default class Index extends Component<{}, IndexState> {
    */
   config: Config = {
     navigationBarTitleText: '首页'
-  }
+  };
 
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       data: []
-    }
+    };
   }
 
-  componentWillMount() {
-  }
+  componentWillMount() {}
 
   componentDidMount() {
     request({
-      url: API_READ_HUB_TOPICS, onSuccess: (res) => {
-        const data = _.get(res, 'data.data', [])
-        console.log(data)
+      url: API_READ_HUB_TOPICS,
+      onSuccess: res => {
+        const data = _.get(res, 'data.data', []);
+        console.log(data);
         this.setState({
           data
-        })
+        });
       }
-    })
+    });
   }
 
-  componentWillUnmount() {
-  }
+  componentWillUnmount() {}
 
-  componentDidShow() {
-  }
+  componentDidShow() {}
 
-  componentDidHide() {
-  }
+  componentDidHide() {}
 
   render() {
-    const {data} = this.state
+    const { data } = this.state;
     return (
-      <View className='container'>
-        {
-          data.map((item) => {
-            const {title, summary, createdAt: createTime} = item
-            return <InfoCard title={title} desc={parseFirstSentence(summary)} time={formatDateOrDuring(createTime)}
-                             key={title}/>
-          })
-        }
+      <View className="container">
+        {data.map(item => {
+          const { title, summary, createdAt: createTime } = item;
+          return (
+            <InfoCard
+              title={title}
+              desc={parseFirstSentence(summary)}
+              time={formatDateOrDuring(createTime)}
+              key={title}
+            />
+          );
+        })}
       </View>
-    )
+    );
   }
 }
