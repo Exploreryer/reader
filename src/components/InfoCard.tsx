@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro'
-import {View} from "@tarojs/components";
+import {View, Text} from "@tarojs/components";
 import Card from "@/components/Card";
 import './InfoCard.scss'
 
@@ -10,10 +10,12 @@ export default class InfoCard extends Taro.Component {
 
 
     return <Card>
-      {/*<View className="title">I am title</View>*/}
-      {/*<View className="description">*/}
-      {/*  I am description*/}
-      {/*</View>*/}
+      <View className="container">
+        <View className="title">我是一个标题标题我是一个标题标题我是一个标题标题我是一个标题标题我是一个标题标题</View>
+        <Text className="description">
+          我是一段描述我是一段描述我是一段描述我是一段描述我是一段描述我是一段描述我是一段描述我是一段描述我是一段描述我是一段描述我是一段描述我是一段描述
+        </Text>
+      </View>
     </Card>
   }
 
