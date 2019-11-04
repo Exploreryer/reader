@@ -91,11 +91,9 @@ export default class Index extends Component<{}, IndexState> {
   }
 
   handlePreview = id => {
-    Taro.showLoading()
     request({ url: API_READ_HUB_TOPIC({ id }), parse: res => _.get(res, 'data', {}) }).then(
       previewData => {
         this.setState({ previewData })
-        Taro.hideLoading()
         return previewData
       }
     )
