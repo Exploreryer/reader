@@ -21,9 +21,15 @@ export const formatDate: FormatDateType = (date, template = FULL_DATE) =>
 export const formatDateOrDuring = (date: DateType, template = FULL_DATE) => {
   // 计算这个时间是不是今天，如果是的话则显示多久以前
   const now = dayjs()
-  return now.isSame(dayjs(date), 'd')
-    ? `${now.diff(dayjs(date), 'hour')} 小时以前`
-    : formatDate(date, template)
+
+  if (now.isSame(dayjs(date), 'h')) {
+    return `${now.diff(dayjs(date), 'minute')} 分钟以前`
+  }
+  if (now.isSame(dayjs(date), 'd')) {
+    return `${now.diff(dayjs(date), 'hour')} 小时以前`
+  }
+
+  return formatDate(date, template)
 }
 
 export const transformObjectToParams = obj =>
