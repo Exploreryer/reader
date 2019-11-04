@@ -19,14 +19,24 @@ type FormatDateType = (date: DateType, template?: string) => string
 export const formatDate: FormatDateType = (date, template = FULL_DATE) =>
   dayjs(date).format(template)
 export const formatDateOrDuring = (date: DateType, template = FULL_DATE) => {
+  if (!date) {
+    return ''
+  }
   // 计算这个时间是不是今天，如果是的话则显示多久以前
   const now = dayjs()
+  const diffDay = now.diff(dayjs(date), 'day')
+  const diffHour = now.diff(dayjs(date), 'hour')
+  const diffMin = now.diff(dayjs(date), 'minute')
+  const diffSec = now.diff(dayjs(date), 'second')
 
-  if (now.isSame(dayjs(date), 'h')) {
-    return `${now.diff(dayjs(date), 'minute')} 分钟以前`
-  }
-  if (now.isSame(dayjs(date), 'd')) {
-    return `${now.diff(dayjs(date), 'hour')} 小时以前`
+  if (!diffDay) {
+    if (!diffHour) {
+      if (!diffMin) {
+        return `${diffSec} 秒以前`
+      }
+      return `${diffMin} 分钟以前`
+    }
+    return `${diffHour} 小时以前`
   }
 
   return formatDate(date, template)

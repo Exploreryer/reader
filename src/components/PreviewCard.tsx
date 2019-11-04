@@ -28,7 +28,7 @@ export default class PreviewCard extends Taro.Component<PreviewCardProps, Previe
   }
 
   render(): any {
-    const { data: { title, createdAt: createTime, summary }, className } = this.props
+    const { data: { title, createdAt: createTime, summary } = {}, className } = this.props
     const cls = classNames('container', className)
 
     return (
