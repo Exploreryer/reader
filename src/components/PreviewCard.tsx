@@ -9,32 +9,16 @@ import _ from 'lodash'
 import './PreviewCard.scss'
 
 interface PreviewCardProps extends StandardProps, Taro.ComponentClass {
-  id?: number | string
+  data: Record<string, any>
   onClose: () => void
   extraProps?: Record<string, any>
 }
 
-interface PreviewCardState {
-  data: Record<string, any>
-}
+interface PreviewCardState {}
 
 export default class PreviewCard extends Taro.Component<PreviewCardProps, PreviewCardState> {
   constructor(props) {
     super(props)
-    this.state = {
-      data: {}
-    }
-  }
-
-  componentDidMount(): void {
-    const { id } = this.props
-    request({ url: API_READ_HUB_TOPIC({ id }), parse: res => _.get(res, 'data', {}) }).then(
-      data => {
-        this.setState({ data })
-        console.log(data)
-        return data
-      }
-    )
   }
 
   handleClose = e => {
@@ -44,15 +28,13 @@ export default class PreviewCard extends Taro.Component<PreviewCardProps, Previe
   }
 
   render(): any {
-    const { className } = this.props
+    const { data: { title, createdAt: createTime, summary }, className } = this.props
     const cls = classNames('container', className)
-    const {
-      data: { title, createdAt: createTime, summary }
-    } = this.state
+
     return (
-      <View className={cls} >
+      <View className={cls}>
         <Card>
-          <View className="main" onClick={this.handleClose} >
+          <View className="main" onClick={this.handleClose}>
             <View className="title">{title}</View>
             <View className="time">{formatDateOrDuring(createTime)}</View>
             <View className="summary">{summary}</View>

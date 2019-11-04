@@ -10,7 +10,7 @@ import PreviewCard from '@/components/PreviewCard'
 
 interface IndexState {
   data: any[]
-  previewId: number | string
+  previewData: Record<string, any>
 }
 
 const DEFAULT_REQUEST_PARAMS = {
@@ -35,7 +35,7 @@ export default class Index extends Component<{}, IndexState> {
     super(props)
     this.state = {
       data: [],
-      previewId: ''
+      previewData: {}
     }
   }
 
@@ -90,20 +90,27 @@ export default class Index extends Component<{}, IndexState> {
     this.loadMoreData()
   }
 
-  handlePreview = previewId => {
-    this.setState({ previewId })
+  handlePreview = id => {
+    Taro.showLoading()
+    request({ url: API_READ_HUB_TOPIC({ id }), parse: res => _.get(res, 'data', {}) }).then(
+      previewData => {
+        this.setState({ previewData })
+        Taro.hideLoading()
+        return previewData
+      }
+    )
   }
 
   handleClosePreview = () => {
-    this.setState({ previewId: '' })
+    this.setState({ previewData: {} })
   }
 
   render() {
-    const { data, previewId } = this.state
+    const { data, previewData } = this.state
     return (
       <View className="container">
-        {previewId && (
-          <PreviewCard extraProps={{ id: previewId }} onClose={this.handleClosePreview} />
+        {!_.isEmpty(previewData) && (
+          <PreviewCard extraProps={{ data: previewData }} onClose={this.handleClosePreview} />
         )}
         {data.map(item => {
           const { title, summary, createdAt: createTime, id } = item
