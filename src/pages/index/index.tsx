@@ -2,13 +2,15 @@ import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import './index.scss'
 import request from '@/utils/request'
-import {API_READ_HUB_TOPIC, API_READ_HUB_TOPICS} from '@/constants/api'
+import { API_READ_HUB_TOPIC, API_READ_HUB_TOPICS } from '@/constants/api'
 import InfoCard from '@/components/InfoCard'
 import _ from 'lodash'
 import { formatDateOrDuring, parseFirstSentence, transformObjectToParams } from '@/utils'
+import PreviewCard from '@/components/PreviewCard'
 
 interface IndexState {
   data: any[]
+  previewId: number | string
 }
 
 const DEFAULT_REQUEST_PARAMS = {
@@ -32,7 +34,8 @@ export default class Index extends Component<{}, IndexState> {
   constructor(props) {
     super(props)
     this.state = {
-      data: []
+      data: [],
+      previewId: ''
     }
   }
 
@@ -67,8 +70,7 @@ export default class Index extends Component<{}, IndexState> {
     })
   }
 
-  componentWillMount() {
-  }
+  componentWillMount() {}
 
   componentDidMount() {
     this.refreshData()
@@ -88,17 +90,29 @@ export default class Index extends Component<{}, IndexState> {
     this.loadMoreData()
   }
 
+  handlePreview = previewId => {
+    this.setState({ previewId })
+  }
+
+  handleClosePreview = () => {
+    this.setState({ previewId: '' })
+  }
+
   render() {
-    const { data } = this.state
+    const { data, previewId } = this.state
     return (
       <View className="container">
+        {previewId && (
+          <PreviewCard extraProps={{ id: previewId }} onClose={this.handleClosePreview} />
+        )}
         {data.map(item => {
-          const { title, summary, createdAt: createTime } = item
+          const { title, summary, createdAt: createTime, id } = item
           return (
             <InfoCard
               title={title}
               desc={parseFirstSentence(summary)}
               time={formatDateOrDuring(createTime)}
+              onPreview={() => this.handlePreview(id)}
               key={title}
             />
           )

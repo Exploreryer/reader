@@ -16,3 +16,8 @@ declare const process: {
     [key: string]: any;
   }
 }
+
+declare interface StandardProps {
+  className?: string
+  style?: string | Record<string, string>
+}

@@ -3,10 +3,18 @@ import { View } from '@tarojs/components'
 import './Card.scss'
 import classNames from 'classnames'
 
-class Card extends Taro.Component {
+export interface CardProps extends StandardProps {
+  onClick?: () => void
+}
+
+class Card extends Taro.Component<CardProps> {
   render(): any {
-    const { className } = this.props
-    return <View className={classNames('container', className)}>{this.props.children}</View>
+    const { className , onClick} = this.props
+    return (
+      <View className={classNames('container', className)} onClick={onClick}>
+        {this.props.children}
+      </View>
+    )
   }
 }
 
