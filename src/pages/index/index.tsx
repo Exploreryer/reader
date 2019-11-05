@@ -6,7 +6,6 @@ import { API_READ_HUB_TOPIC, API_READ_HUB_TOPICS } from '@/constants/api'
 import InfoCard from '@/components/InfoCard'
 import _ from 'lodash'
 import { formatDateOrDuring, parseFirstSentence, transformObjectToParams } from '@/utils'
-import PreviewCard from '@/components/PreviewCard'
 
 interface IndexState {
   data: any[]
@@ -107,9 +106,6 @@ export default class Index extends Component<{}, IndexState> {
     const { data, previewData } = this.state
     return (
       <View className="container">
-        {!_.isEmpty(previewData) && (
-          <PreviewCard extraProps={{ data: previewData }} onClose={this.handleClosePreview} />
-        )}
         {data.map(item => {
           const { title, summary, createdAt: createTime, id } = item
           return (
