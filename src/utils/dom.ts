@@ -11,3 +11,11 @@ export const getRect = (selector, cb, scope) => {
     .boundingClientRect(cb)
     .exec()
 }
+
+export const getRectOffset = (cb, scope) => {
+  Taro.createSelectorQuery()
+    .in(scope)
+    .selectViewport()
+    .scrollOffset(cb)
+    .exec()
+}

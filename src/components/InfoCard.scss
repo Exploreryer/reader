@@ -22,6 +22,7 @@
     .main {
       z-index: 2;
       position: absolute;
+      transition: height 2s;
 
       &:host {
         margin-bottom: unset;
