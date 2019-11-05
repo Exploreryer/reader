@@ -5,27 +5,33 @@ import _ from 'lodash'
 import './InfoCard.scss'
 import classNames from 'classnames'
 import { getRect } from '@/utils/dom'
+import { formatDateOrDuring, parseFirstSentence } from '@/utils'
+import request from '@/utils/request'
+import { API_READ_HUB_TOPIC } from '@/constants/api'
 
 interface InfoCardProps {
-  title: string
-  desc: string
-  time: string
-  onPreview: () => void
+  data: Record<string, any>
 }
 
 interface InfoCardState {
   active: boolean
   containerStyle: Record<string, any>
+  detailData: Record<string, any>
 }
 
 export default class InfoCard extends Taro.Component<InfoCardProps, InfoCardState> {
+  static defaultProps = {
+    data: {}
+  }
+
   containerRect: Record<string, number>
 
   constructor(props) {
     super(props)
     this.state = {
       active: false,
-      containerStyle: {}
+      containerStyle: {},
+      detailData: {}
     }
   }
 
@@ -40,8 +46,24 @@ export default class InfoCard extends Taro.Component<InfoCardProps, InfoCardStat
     )
   }
 
+  updateDetail = () => {
+    const {
+      data: { id }
+    } = this.props
+    Taro.showLoading()
+    return request({ url: API_READ_HUB_TOPIC({ id }), parse: res => _.get(res, 'data', {}) }).then(
+      detailData => {
+        Taro.hideLoading()
+        this.setState({ detailData })
+        return detailData
+      }
+    )
+  }
+
   handleLongPress = e => {
     Taro.vibrateShort().then(() => {
+      // 抓取详细数据
+      this.updateDetail()
       this.setState({
         containerStyle: {
           width: `${this.containerRect.width}px`,
@@ -58,11 +80,19 @@ export default class InfoCard extends Taro.Component<InfoCardProps, InfoCardStat
   }
 
   render(): any {
-    const { title, desc, time } = this.props
-    const { active, containerStyle } = this.state
+    const {
+      data: { summary, title, createdAt }
+    } = this.props
+    const {
+      active,
+      containerStyle,
+      detailData: { summary: detailSummary, createdAt: detailCreatedAt }
+    } = this.state
     const cls = classNames('info-card-container', {
       'info-card-container-active': active
     })
+    const desc = active ? detailSummary : parseFirstSentence(summary)
+    const time = formatDateOrDuring(active ? detailCreatedAt : createdAt)
     return (
       <View className={cls} style={containerStyle}>
         <Card

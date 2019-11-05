@@ -9,7 +9,6 @@ import { formatDateOrDuring, parseFirstSentence, transformObjectToParams } from 
 
 interface IndexState {
   data: any[]
-  previewData: Record<string, any>
 }
 
 const DEFAULT_REQUEST_PARAMS = {
@@ -34,7 +33,6 @@ export default class Index extends Component<{}, IndexState> {
     super(props)
     this.state = {
       data: [],
-      previewData: {}
     }
   }
 
@@ -69,17 +67,9 @@ export default class Index extends Component<{}, IndexState> {
     })
   }
 
-  componentWillMount() {}
-
   componentDidMount() {
     this.refreshData()
   }
-
-  componentWillUnmount() {}
-
-  componentDidShow() {}
-
-  componentDidHide() {}
 
   onPullDownRefresh() {
     this.refreshData()
@@ -89,35 +79,13 @@ export default class Index extends Component<{}, IndexState> {
     this.loadMoreData()
   }
 
-  handlePreview = id => {
-    request({ url: API_READ_HUB_TOPIC({ id }), parse: res => _.get(res, 'data', {}) }).then(
-      previewData => {
-        this.setState({ previewData })
-        return previewData
-      }
-    )
-  }
-
-  handleClosePreview = () => {
-    this.setState({ previewData: {} })
-  }
-
   render() {
-    const { data, previewData } = this.state
+    const { data } = this.state
     return (
       <View className="container">
-        {data.map(item => {
-          const { title, summary, createdAt: createTime, id } = item
-          return (
-            <InfoCard
-              title={title}
-              desc={parseFirstSentence(summary)}
-              time={formatDateOrDuring(createTime)}
-              onPreview={() => this.handlePreview(id)}
-              key={title}
-            />
-          )
-        })}
+        {data.map(item => (
+          <InfoCard data={item} key={item.title} />
+        ))}
       </View>
     )
   }
