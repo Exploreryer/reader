@@ -1,13 +1,13 @@
 import Taro from '@tarojs/taro'
-import { Text, View } from '@tarojs/components'
+import {View} from '@tarojs/components'
 import Card from '@/components/Card'
 import _ from 'lodash'
 import './InfoCard.scss'
 import classNames from 'classnames'
-import { getRect, getRectOffset } from '@/utils/dom'
-import { formatDateOrDuring, parseFirstSentence } from '@/utils'
+import {getRect, getRectOffset} from '@/utils/dom'
+import {formatDateOrDuring, parseFirstSentence} from '@/utils'
 import request from '@/utils/request'
-import { API_READ_HUB_TOPIC } from '@/constants/api'
+import {API_READ_HUB_TOPIC} from '@/constants/api'
 
 interface InfoCardProps {
   data: Record<string, any>
