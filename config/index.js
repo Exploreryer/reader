@@ -15,9 +15,12 @@ const config = {
     babel: {
       sourceMap: true,
       presets: [
-        ['env', {
-          modules: false
-        }]
+        [
+          'env',
+          {
+            modules: false
+          }
+        ]
       ],
       plugins: [
         'transform-decorators-legacy',
@@ -29,7 +32,7 @@ const config = {
   alias: {
     '@/components': path.resolve(__dirname, '..', 'src/components/'),
     '@/utils': path.resolve(__dirname, '..', 'src/utils/'),
-    '@/constants': path.resolve(__dirname, '..', 'src/constants/'),
+    '@/constants': path.resolve(__dirname, '..', 'src/constants/')
   },
   defineConstants: {},
   copy: {
@@ -42,11 +45,7 @@ const config = {
         autoprefixer: {
           enable: true,
           config: {
-            browsers: [
-              'last 3 versions',
-              'Android >= 4.1',
-              'ios >= 8'
-            ]
+            browsers: ['last 3 versions', 'Android >= 4.1', 'ios >= 8']
           }
         },
         pxtransform: {
@@ -78,11 +77,7 @@ const config = {
         autoprefixer: {
           enable: true,
           config: {
-            browsers: [
-              'last 3 versions',
-              'Android >= 4.1',
-              'ios >= 8'
-            ]
+            browsers: ['last 3 versions', 'Android >= 4.1', 'ios >= 8']
           }
         },
         cssModules: {
@@ -97,7 +92,7 @@ const config = {
   }
 }
 
-module.exports = function (merge) {
+module.exports = function(merge) {
   if (process.env.NODE_ENV === 'development') {
     return merge({}, config, require('./dev'))
   }
