@@ -2,6 +2,7 @@ import Taro, { Component, Config } from '@tarojs/taro'
 import Index from './pages/index'
 
 import './app.scss'
+import { CLOUD_ENV } from '@/constants/config'
 
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
@@ -39,6 +40,9 @@ class App extends Component {
           res.confirm && updateManager.applyUpdate()
         }
       })
+    })
+    wx.cloud.init({
+      env: CLOUD_ENV
     })
   }
 
