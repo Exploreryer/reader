@@ -12,7 +12,9 @@ export interface CardProps extends StandardProps {
 
 class Card extends Taro.Component<CardProps> {
 
-  static externalClasses = ['class-name']
+  static options = {
+    addGlobalClass: true
+  }
 
   static defaultProps = {
     onClick: () => {},
@@ -25,7 +27,7 @@ class Card extends Taro.Component<CardProps> {
     const { className, onClick, onLongPress, style, animation, onAnimationEnd } = this.props
     return (
       <View
-        className={classNames('container', 'class-name', className)}
+        className={classNames('card-container', className)}
         onClick={onClick}
         onLongPress={onLongPress}
         onAnimationEnd={onAnimationEnd}

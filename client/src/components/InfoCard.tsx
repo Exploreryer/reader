@@ -1,13 +1,16 @@
 import Taro from '@tarojs/taro'
-import {View} from '@tarojs/components'
+import { View } from '@tarojs/components'
 import Card from '@/components/Card'
 import _ from 'lodash'
 import './InfoCard.scss'
 import classNames from 'classnames'
-import {getRect, getRectOffset} from '@/utils/dom'
-import {formatDateOrDuring, parseFirstSentence} from '@/utils'
+import { getRect, getRectOffset } from '@/utils/dom'
+import { formatDateOrDuring, parseFirstSentence } from '@/utils'
 import request from '@/utils/request'
-import {API_READ_HUB_TOPIC} from '@/constants/api'
+import { API_READ_HUB_TOPIC } from '@/constants/api'
+import { stylePrefix } from '@/utils/prefix'
+
+const addStylePrefix = stylePrefix('info-card')
 
 interface InfoCardProps {
   data: Record<string, any>
@@ -20,7 +23,10 @@ interface InfoCardState {
   detailData: Record<string, any>
 }
 
-export default class InfoCard extends Taro.Component<InfoCardProps, InfoCardState> {
+export default class InfoCard extends Taro.Component<
+  InfoCardProps,
+  InfoCardState
+> {
   static defaultProps = {
     data: {}
   }
@@ -57,12 +63,13 @@ export default class InfoCard extends Taro.Component<InfoCardProps, InfoCardStat
     const { detailData } = this.state
     return (
       _.isEmpty(detailData) &&
-      request({ url: API_READ_HUB_TOPIC({ id }), parse: res => _.get(res, 'data', {}) }).then(
-        detailData => {
-          this.setState({ detailData })
-          return detailData
-        }
-      )
+      request({
+        url: API_READ_HUB_TOPIC({ id }),
+        parse: res => _.get(res, 'data', {})
+      }).then(detailData => {
+        this.setState({ detailData })
+        return detailData
+      })
     )
   }
 
@@ -124,8 +131,8 @@ export default class InfoCard extends Taro.Component<InfoCardProps, InfoCardStat
       containerStyle,
       detailData: { summary: detailSummary, createdAt: detailCreatedAt }
     } = this.state
-    const cls = classNames('info-card-container', {
-      'info-card-container-active': active
+    const cls = classNames(addStylePrefix('container'), {
+      [addStylePrefix('container-active')]: active
     })
     const desc = active ? detailSummary : parseFirstSentence(summary)
     const time = formatDateOrDuring(active ? detailCreatedAt : createdAt)
@@ -134,14 +141,15 @@ export default class InfoCard extends Taro.Component<InfoCardProps, InfoCardStat
         <Card
           onLongPress={this.handleLongPress}
           onClick={this.handleClosePreview}
-          class-name="main"
-          // style={mainStyle}
+          className={classNames({
+            [addStylePrefix('container-active-main')]: active
+          })}
           animation={this.animationData}
           onAnimationEnd={this.handleAnimationEnd}
         >
-          <View className="title">{title}</View>
-          <View className="description">{desc}</View>
-          <View className="time">{time}</View>
+          <View className={addStylePrefix('title')}>{title}</View>
+          <View className={addStylePrefix('description')}>{desc}</View>
+          <View className={addStylePrefix('time')}>{time}</View>
         </Card>
       </View>
     )
