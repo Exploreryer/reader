@@ -1,11 +1,11 @@
 import Taro, { Component, Config } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import './index.scss'
 import request from '@/utils/request'
-import { API_READ_HUB_TOPIC, API_READ_HUB_TOPICS } from '@/constants/api'
+import { API_READ_HUB_TOPICS } from '@/constants/api'
 import InfoCard from '@/components/InfoCard'
 import _ from 'lodash'
-import { formatDateOrDuring, parseFirstSentence, transformObjectToParams } from '@/utils'
+import { transformObjectToParams } from '@/utils'
 
 interface IndexState {
   data: any[]
@@ -32,7 +32,7 @@ export default class Index extends Component<{}, IndexState> {
   constructor(props) {
     super(props)
     this.state = {
-      data: [],
+      data: []
     }
   }
 
