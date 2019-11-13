@@ -1,11 +1,11 @@
-import Taro, { Component, Config } from '@tarojs/taro'
-import { View } from '@tarojs/components'
-import './index.scss'
+import Taro, {Component, Config} from '@tarojs/taro'
+import {View} from '@tarojs/components'
+import './Index.scss'
 import request from '@/utils/request'
-import { API_READ_HUB_TOPICS } from '@/constants/api'
+import {API_READ_HUB_TOPICS} from '@/constants/api'
 import InfoCard from '@/components/InfoCard'
 import _ from 'lodash'
-import { transformObjectToParams } from '@/utils'
+import {transformObjectToParams} from '@/utils'
 
 interface IndexState {
   data: any[]

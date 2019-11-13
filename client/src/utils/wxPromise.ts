@@ -1,6 +1,8 @@
+import Taro from '@tarojs/taro'
+
 const buildWXPromise = (funcName, params = {}) =>
   new Promise((resolve, reject) => {
-    wx[funcName]({
+    Taro[funcName]({
       success: resolve,
       fail: reject,
       ...params
