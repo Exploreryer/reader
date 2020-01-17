@@ -1,5 +1,5 @@
-import _ from 'lodash'
-import dayjs, { Dayjs } from 'dayjs'
+import _reduce from 'lodash.reduce'
+import dayjs  from 'dayjs'
 import { FULL_DATE } from '@/constants/date_template'
 
 export const parseFirstSentence = (str = '', separators = ['...', '…']) => {
@@ -14,7 +14,7 @@ export const parseFirstSentence = (str = '', separators = ['...', '…']) => {
   return ret
 }
 
-type DateType = Dayjs | string | number | Date
+type DateType = dayjs.Dayjs | string | number | Date
 type FormatDateType = (date: DateType, template?: string) => string
 export const formatDate: FormatDateType = (date, template = FULL_DATE) =>
   dayjs(date).format(template)
@@ -43,4 +43,4 @@ export const formatDateOrDuring = (date: DateType, template = FULL_DATE) => {
 }
 
 export const transformObjectToParams = obj =>
-  '?'.concat(_.reduce(obj, (ret, value, key) => [...ret, `${key}=${value}`], []).join('&'))
+  '?'.concat(_reduce(obj, (ret, value, key) => [...ret, `${key}=${value}`], []).join('&'))

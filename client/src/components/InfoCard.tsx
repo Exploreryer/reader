@@ -1,26 +1,26 @@
 import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import Card from '@/components/Card'
-import _ from 'lodash'
-import './InfoCard.scss'
+import _get from 'lodash.get'
+import _isEmpty from 'lodash.isempty'
 import classNames from 'classnames'
 import { getRect, getRectOffset } from '@/utils/dom'
 import { formatDateOrDuring, parseFirstSentence } from '@/utils'
 import request from '@/utils/request'
-import { API_READ_HUB_TOPIC } from '@/constants/api'
+import {API_READ_HUB_TOPIC} from '@/constants/api'
+import './InfoCard.scss'
 import { stylePrefix } from '@/utils/prefix'
 
 const addStylePrefix = stylePrefix('info-card')
 
 interface InfoCardProps {
-  data: Record<string, any>
+  data: BaseObject
 }
 
 interface InfoCardState {
   active: boolean
-  containerStyle: Record<string, any>
-  mainStyle: Record<string, any>
-  detailData: Record<string, any>
+  containerStyle: BaseObject
+  detailData: BaseObject
 }
 
 export default class InfoCard extends Taro.Component<
@@ -31,16 +31,15 @@ export default class InfoCard extends Taro.Component<
     data: {}
   }
 
-  containerRect: Record<string, number>
-  containerRectOffset: Record<string, number>
-  animationData = []
+  containerRect: BaseObject<number>
+  containerRectOffset: BaseObject<number>
+  animationData: BaseObject[] = []
 
   constructor(props) {
     super(props)
     this.state = {
       active: false,
       containerStyle: {},
-      mainStyle: {},
       detailData: {}
     }
   }
@@ -60,12 +59,11 @@ export default class InfoCard extends Taro.Component<
     const {
       data: { id }
     } = this.props
-    const { detailData } = this.state
     return (
-      _.isEmpty(detailData) &&
+      _isEmpty( this.state.detailData) &&
       request({
         url: API_READ_HUB_TOPIC({ id }),
-        parse: res => _.get(res, 'data', {})
+        parse: res => _get(res, 'data', {})
       }).then(detailData => {
         this.setState({ detailData })
         return detailData
@@ -80,9 +78,9 @@ export default class InfoCard extends Taro.Component<
       delay: 0
     })
       .scale(0.9, 0.9)
-      .step({ during: 50 })
+      .step({ duration: 50 })
       .scale(1, 1)
-      .step({ during: 50, delay: 50 })
+      .step({ duration: 50, delay: 50 })
       .export()
 
   getPopDownAni = () =>
@@ -91,11 +89,11 @@ export default class InfoCard extends Taro.Component<
       timingFunction: 'ease',
       delay: 0
     })
-      .step({ during: 25 })
-      .step({ during: 25, delay: 25 })
+      .step({ duration: 25 })
+      .step({ duration: 25, delay: 25 })
       .export()
 
-  handleLongPress = e => {
+  handleLongPress = () => {
     this.animationData = this.getPopupAni()
     Taro.vibrateShort().then(() => {
       setTimeout(() => {
@@ -118,7 +116,7 @@ export default class InfoCard extends Taro.Component<
     this.setState({ active: false })
   }
 
-  handleAnimationEnd = e => {
+  handleAnimationEnd = () => {
     this.animationData = []
   }
 

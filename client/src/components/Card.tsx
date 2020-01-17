@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
-import './Card.scss'
 import classNames from 'classnames'
+import './Card.scss'
 
 export interface CardProps extends StandardProps {
   onClick?: (e) => void
@@ -32,6 +32,7 @@ class Card extends Taro.Component<CardProps> {
         onLongPress={onLongPress}
         onAnimationEnd={onAnimationEnd}
         style={style}
+        // @ts-ignore
         animation={animation}
       >
         {this.props.children}

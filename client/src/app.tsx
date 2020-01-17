@@ -1,5 +1,5 @@
-import Taro, {Component, Config} from '@tarojs/taro'
-import Index from './pages/index/Index'
+import Taro, { Component } from '@tarojs/taro'
+import Index from './pages/index'
 
 import './app.scss'
 import {CLOUD_ENV} from '@/constants/config'
@@ -19,7 +19,7 @@ class App extends Component {
    * 对于像 navigationBarTextStyle: 'black' 这样的推导出的类型是 string
    * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
    */
-  config: Config = {
+  config: Taro.Config = {
     pages: ['pages/index/Index'],
     window: {
       backgroundTextStyle: 'light',

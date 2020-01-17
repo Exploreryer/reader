@@ -1,11 +1,13 @@
-import Taro, {Component, Config} from '@tarojs/taro'
-import {View} from '@tarojs/components'
-import './Index.scss'
+import Taro, { Component } from '@tarojs/taro'
+import { View } from '@tarojs/components'
 import request from '@/utils/request'
 import {API_READ_HUB_TOPICS} from '@/constants/api'
 import InfoCard from '@/components/InfoCard'
-import _ from 'lodash'
+import _get from 'lodash.get'
+import _last from 'lodash.last'
+import _extend from 'lodash.assign'
 import {transformObjectToParams} from '@/utils'
+import './Index.scss'
 
 interface IndexState {
   data: any[]
@@ -24,7 +26,7 @@ export default class Index extends Component<{}, IndexState> {
    * 对于像 navigationBarTextStyle: 'black' 这样的推导出的类型是 string
    * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
    */
-  config: Config = {
+  config: Taro.Config = {
     navigationBarTitleText: '话题',
     backgroundColor: '#e6e6e6'
   }
@@ -38,13 +40,13 @@ export default class Index extends Component<{}, IndexState> {
 
   getLastCursor = () => {
     const { data } = this.state
-    return _.get(_.last(data), 'order')
+    return _get(_last(data), 'order')
   }
 
   updateData = params => {
     return request<any[]>({
       url: `${API_READ_HUB_TOPICS}${transformObjectToParams(params)}`,
-      parse: res => _.get(res, 'data.data', [])
+      parse: res => _get(res, 'data.data', [])
     })
   }
 
@@ -60,7 +62,7 @@ export default class Index extends Component<{}, IndexState> {
 
   loadMoreData = () => {
     this.updateData(
-      _.extend({}, DEFAULT_REQUEST_PARAMS, { lastCursor: this.getLastCursor() })
+      _extend({}, DEFAULT_REQUEST_PARAMS, { lastCursor: this.getLastCursor() })
     ).then(data => {
       this.setState(({ data: prevData }) => ({ data: prevData.concat(data) }))
       return data
