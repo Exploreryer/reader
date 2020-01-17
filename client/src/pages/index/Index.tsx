@@ -1,7 +1,7 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import request from '@/utils/request'
-import {API_READ_HUB_TOPICS} from '@/constants/api'
+import {API_READ_HUB_TOPICS } from '@/constants/api'
 import InfoCard from '@/components/InfoCard'
 import _get from 'lodash.get'
 import _last from 'lodash.last'
