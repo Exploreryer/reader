@@ -3,7 +3,6 @@ import Index from './pages/index'
 
 import './app.scss'
 import {CLOUD_ENV} from '@/constants/config'
-import {login} from "@/utils/wxPromise";
 
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
@@ -45,7 +44,6 @@ class App extends Component {
     Taro.cloud.init({
       env: CLOUD_ENV
     })
-    login()
   }
 
   componentDidHide() {}

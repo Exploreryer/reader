@@ -48,8 +48,7 @@
 		"lodash.last": "^3.0.0",
 		"lodash.reduce": "^4.6.0",
 		"nerv-devtools": "^1.5.6",
-		"nervjs": "^1.5.6",
-		"taro-ui": "^2.2.4"
+		"nervjs": "^1.5.6"
 	},
 	"devDependencies": {
 		"@tarojs/plugin-babel": "2.0.1",
