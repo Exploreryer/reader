@@ -79,7 +79,7 @@ export default class InfoCard extends Taro.Component<
       active,
       detailData: { summary: detailSummary, createdAt: detailCreatedAt }
     } = this.state
-    const time = formatDateOrDuring(active ? detailCreatedAt : createdAt)
+    const time = formatDateOrDuring(createdAt)
     return (
       <Card onClick={this.handleClick} className={classNames('info-card')}>
         <View className={addStylePrefix('title')}>{title}</View>

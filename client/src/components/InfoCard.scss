@@ -18,7 +18,7 @@
     font-weight: 300;
     margin-bottom: 20px;
     overflow: hidden;
-    transition: max-height ease-in-out 300ms;
+    transition: max-height ease-out 800ms;
     max-height: 0;
 
     &-active {
