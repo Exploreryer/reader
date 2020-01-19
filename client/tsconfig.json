@@ -13,15 +13,14 @@
     "noUnusedParameters": false,
     "strictNullChecks": true,
     "sourceMap": true,
-    "baseUrl": "./client",
+    "baseUrl": "./",
     "rootDir": ".",
     "jsx": "preserve",
     "jsxFactory": "Taro.createElement",
     "allowJs": true,
     "resolveJsonModule": true,
     "typeRoots": [
-      "node_modules/@types",
-      "global.d.ts"
+      "./node_modules/@types"
     ],
     "paths": {
       "@/*": [
@@ -30,7 +29,7 @@
     }
   },
   "exclude": [
-    "client/node_modules",
+    "node_modules",
     "dist"
   ],
   "compileOnSave": false
