@@ -1,6 +1,6 @@
 {
 	"miniprogramRoot": "client/dist/",
-	"cloudfunctionRoot": "cloud/functions/",
+	"cloudfunctionRoot": "cloud/",
 	"projectname": "reader",
 	"description": "easy to read",
 	"appid": "wx1198a539e8728f9c",
@@ -13,5 +13,6 @@
 	"compileType": "miniprogram",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
+	"cloudfunctionTemplateRoot": "cloudfunctionTemplate",
 	"condition": {}
 }

@@ -1,14 +1,19 @@
 {
-  "name": "login",
+  "name": "index",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "",
   "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "wx-server-sdk": "latest"
+    "wx-server-sdk": "~1.8.0"
+  },
+  "devDependencies": {
+    "@types/wx-server-sdk": "^0.8.0"
   }
 }
